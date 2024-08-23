@@ -7,14 +7,40 @@ import {
 } from "@ant-design/icons";
 import Header from "../components/Header";
 import MyFooter from "../components/MyFooter";
+import { message } from 'antd';
+import axios from "axios";
 
 const { TextArea } = Input;
 
 const ContactUs = () => {
   const [form] = Form.useForm();
 
-  const onFinish = (values) => {
-    console.log("Form values: ", values);
+  const onFinish = async (values) => {
+    try {
+      // Sending the form data to the backend API
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/contacts/create",
+        {
+          name: values.name,
+          email: values.email,
+          message: values.message,
+        }
+      );
+
+      if (response.status === 201) {
+        message.success(
+          "Thank you for your message! We will get back to you soon."
+        );
+        form.resetFields(); // Reset the form fields after successful submission
+      } else {
+        message.error("Failed to send your message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending contact form:", error);
+      message.error(
+        "An error occurred while sending your message. Please try again later."
+      );
+    }
   };
 
   return (

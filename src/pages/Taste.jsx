@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Slider, Select, Radio, Pagination } from "antd";
+import { Input, Slider, Select, Radio, Pagination, Empty } from "antd";
 import MainCard from "../components/MainCard";
 import Header from "../components/Header";
 import MyFooter from "../components/MyFooter";
@@ -18,14 +18,17 @@ const Taste = () => {
 
   const fetchFilteredItems = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/item/all-items", {
-        params: {
-          minPrice: selectedPriceRange[0],
-          maxPrice: selectedPriceRange[1],
-          sizeFilter: selectedSize.toUpperCase(),
-          categoryFilter: selectedCategory.toUpperCase(),
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:8080/api/v1/item/all-items",
+        {
+          params: {
+            minPrice: selectedPriceRange[0],
+            maxPrice: selectedPriceRange[1],
+            sizeFilter: selectedSize.toUpperCase(),
+            categoryFilter: selectedCategory.toUpperCase(),
+          },
+        }
+      );
 
       if (response.data.statusCode === 200) {
         console.log(response.data.data);
@@ -53,7 +56,7 @@ const Taste = () => {
   return (
     <>
       <section className="min-h-screen flex flex-col items-center justify-between bg-background w-full max-w-full ">
-        <Header />
+        <Header/>
 
         <section className="bg-white p-12 flex flex-row w-full">
           {/* Filters Sidebar */}
@@ -118,10 +121,17 @@ const Taste = () => {
                   category={dish.category}
                   status={dish.status}
                   onOrder={() => {
-                    console.log("Order Now clicked for", dish.itemName);
+                    //add to cart API call and redirect to cart page
                   }}
                 />
               ))}
+              {filteredDishes.length == 0 ? (
+                <div className="flex justify-center items-center h-[60vh] w-[60vw]">
+                  <Empty description="No Data Available" />
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
 
             {/* Pagination */}

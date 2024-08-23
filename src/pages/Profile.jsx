@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Form, Input, Button, Avatar, Card, message } from "antd";
-import { UserOutlined, HomeOutlined, CreditCardOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  HomeOutlined,
+  CreditCardOutlined,
+} from "@ant-design/icons";
 import MyFooter from "../components/MyFooter";
+import Header from "../components/Header";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 const Profile = () => {
   const [form] = Form.useForm();
@@ -11,11 +16,21 @@ const Profile = () => {
 
   useEffect(() => {
     const userData = [
-      "email", "password", "avatarUrl", "name", "mobile", "addressLine1",
-      "addressLine2", "country", "cardName", "cardHolder", "cardNumber",
-      "cardExp", "cardCvv"
+      "email",
+      "password",
+      "avatarUrl",
+      "name",
+      "mobile",
+      "addressLine1",
+      "addressLine2",
+      "country",
+      "cardName",
+      "cardHolder",
+      "cardNumber",
+      "cardExp",
+      "cardCvv",
     ];
-    
+
     const initialValues = userData.reduce((acc, key) => {
       acc[key] = localStorage.getItem(key) || "";
       return acc;
@@ -38,11 +53,7 @@ const Profile = () => {
 
   return (
     <Layout className="min-h-screen">
-      <Header className="bg-white border-b">
-        <div className="container mx-auto px-4">
-          <h1 className="text-2xl font-bold">My Profile</h1>
-        </div>
-      </Header>
+      <Header />
       <Content className="container mx-auto px-4 py-8">
         <Form
           form={form}
@@ -51,23 +62,43 @@ const Profile = () => {
           className="max-w-3xl mx-auto"
         >
           <div className="flex justify-center mb-8">
-            <Avatar size={128} icon={<UserOutlined />} src={form.getFieldValue("avatarUrl")} />
+            <Avatar
+              src={"src/assets/images/user.png"} // Sample avatar if no URL
+              alt={"Avatar"}
+              className="w-24 h-auto"
+            />
           </div>
 
-          <Card title="Personal Information" className="mb-8" extra={<UserOutlined />}>
-            <Form.Item name="avatarUrl" label="Avatar URL">
+          <Card
+            title="Personal Information"
+            className="mb-8"
+            extra={<UserOutlined />}
+          >
+            <Form.Item name="avatarUrl" label="Avatar URL" className="hidden">
               <Input />
             </Form.Item>
-            <Form.Item name="name" label="Full Name" rules={[{ required: true }]}>
+            <Form.Item
+              name="name"
+              label="Full Name"
+              rules={[{ required: true }]}
+            >
               <Input />
             </Form.Item>
-            <Form.Item name="email" label="Email" rules={[{ required: true, type: "email" }]}>
+            <Form.Item
+              name="email"
+              label="Email"
+              rules={[{ required: true, type: "email" }]}
+            >
               <Input />
             </Form.Item>
             <Form.Item name="mobile" label="Mobile Number">
               <Input />
             </Form.Item>
-            <Form.Item name="password" label="Password" rules={[{ required: true }]}>
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[{ required: true }]}
+            >
               <Input.Password />
             </Form.Item>
           </Card>
@@ -84,7 +115,11 @@ const Profile = () => {
             </Form.Item>
           </Card>
 
-          <Card title="Payment Information" className="mb-8" extra={<CreditCardOutlined />}>
+          <Card
+            title="Payment Information"
+            className="mb-8"
+            extra={<CreditCardOutlined />}
+          >
             <Form.Item name="cardName" label="Card Name">
               <Input />
             </Form.Item>
@@ -95,7 +130,11 @@ const Profile = () => {
               <Input />
             </Form.Item>
             <div className="flex space-x-4">
-              <Form.Item name="cardExp" label="Expiration Date" className="flex-1">
+              <Form.Item
+                name="cardExp"
+                label="Expiration Date"
+                className="flex-1"
+              >
                 <Input />
               </Form.Item>
               <Form.Item name="cardCvv" label="CVV" className="flex-1">
